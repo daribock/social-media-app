@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "compile": "tsc",
-    "start": "npm run compile && node ./dist/index.js"
+    "start": "npm run compile && node ./dist/index.js",
+    "prepare": "husky"
   },
   "author": "Darius Kletter",
   "license": "ISC",
@@ -18,7 +19,13 @@
   "devDependencies": {
     "@types/node": "^20.11.20",
     "@types/tunnel": "^0.0.7",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
+    "prettier": "3.2.5",
     "tunnel": "^0.0.6",
     "typescript": "^5.3.3"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   }
 }
