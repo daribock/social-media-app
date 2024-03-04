@@ -1,0 +1,24 @@
+{
+  "name": "social-media-app",
+  "version": "1.0.0",
+  "description": "A simple social media app build with the MERNG stack",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "compile": "tsc",
+    "start": "npm run compile && node ./dist/index.js"
+  },
+  "author": "Darius Kletter",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^3.13.0",
+    "graphql": "^16.8.1",
+    "mongoose": "^8.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.20",
+    "@types/tunnel": "^0.0.7",
+    "tunnel": "^0.0.6",
+    "typescript": "^5.3.3"
+  }
+}
