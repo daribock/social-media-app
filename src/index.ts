@@ -1,35 +1,18 @@
-import { gql, ApolloServer } from "apollo-server";
+import { ApolloServer } from "apollo-server";
 import mongoose from "mongoose";
+import { readFileSync } from "fs";
 
 import config from "./config/config.js";
-import Post from "./models/Post.js";
+import resolvers from "./graphql/resolvers/index.js";
+
+// Note: this uses a path relative to the project's
+// root directory, which is the current working directory
+// if the server is executed using `npm run`.
+const typeDefs = readFileSync("./src/graphql/schema.graphql", {
+  encoding: "utf-8",
+});
 
 const { MONGODB_URL } = config;
-
-const typeDefs = gql`
-  type Post {
-    id: ID!
-    body: String!
-    username: String!
-    createdAt: String!
-  }
-  type Query {
-    getPosts: [Post]
-  }
-`;
-
-const resolvers = {
-  Query: {
-    getPosts: async () => {
-      try {
-        const posts = await Post.find();
-        return posts;
-      } catch (err) {
-        throw new Error(err as string);
-      }
-    },
-  },
-};
 
 const server = new ApolloServer({ typeDefs, resolvers });
 
