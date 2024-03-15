@@ -59,8 +59,10 @@ export type RegisterInput = {
 
 export type User = {
   __typename?: "User";
+  createdAt: Scalars["String"]["output"];
   email: Scalars["String"]["output"];
   id: Scalars["ID"]["output"];
+  token: Scalars["String"]["output"];
 };
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -234,8 +236,10 @@ export type UserResolvers<
   ParentType extends
     ResolversParentTypes["User"] = ResolversParentTypes["User"],
 > = {
+  createdAt?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   email?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
+  token?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

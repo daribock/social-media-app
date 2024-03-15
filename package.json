@@ -5,10 +5,10 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "generate": "graphql-codegen --config codegen.yml",
+    "generate": "graphql-codegen --config codegen.ts",
     "compile": "npm run generate && tsc src/index.ts",
     "start": "npm run generate && tsx src/index.ts",
-    "dev": "npm run generate && tsx --watch src/index.ts",
+    "dev": "tsx --watch src/index.ts",
     "prepare": "husky",
     "codegen": "graphql-codegen --config codegen.ts"
   },
@@ -25,6 +25,8 @@
     "@graphql-codegen/cli": "5.0.2",
     "@graphql-codegen/typescript": "4.0.6",
     "@graphql-codegen/typescript-resolvers": "4.0.6",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20.11.24",
     "@types/tunnel": "^0.0.7",
     "husky": "^9.0.11",
