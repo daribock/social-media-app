@@ -16,6 +16,10 @@ export type Scalars = {
     Float: { input: number; output: number };
 };
 
+export type CreatePostInput = {
+    body: Scalars['String']['input'];
+};
+
 export enum IssueSeverity {
     Error = 'ERROR',
     Info = 'INFO',
@@ -28,8 +32,18 @@ export type LoginInput = {
 
 export type Mutation = {
     __typename?: 'Mutation';
+    createPost: Post;
+    deletePost: Scalars['String']['output'];
     login: User;
     register: User;
+};
+
+export type MutationCreatePostArgs = {
+    createPostInput: CreatePostInput;
+};
+
+export type MutationDeletePostArgs = {
+    postId: Scalars['ID']['input'];
 };
 
 export type MutationLoginArgs = {
@@ -50,7 +64,12 @@ export type Post = {
 
 export type Query = {
     __typename?: 'Query';
+    getPost?: Maybe<Post>;
     getPosts?: Maybe<Array<Maybe<Post>>>;
+};
+
+export type QueryGetPostArgs = {
+    postId: Scalars['ID']['input'];
 };
 
 export type RegisterInput = {
@@ -155,6 +174,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
     Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+    CreatePostInput: CreatePostInput;
     ID: ResolverTypeWrapper<Scalars['ID']['output']>;
     IssueSeverity: IssueSeverity;
     LoginInput: LoginInput;
@@ -171,6 +191,7 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
     Boolean: Scalars['Boolean']['output'];
+    CreatePostInput: CreatePostInput;
     ID: Scalars['ID']['output'];
     LoginInput: LoginInput;
     Mutation: {};
@@ -187,6 +208,18 @@ export type MutationResolvers<
     ContextType = any,
     ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation'],
 > = {
+    createPost?: Resolver<
+        ResolversTypes['Post'],
+        ParentType,
+        ContextType,
+        RequireFields<MutationCreatePostArgs, 'createPostInput'>
+    >;
+    deletePost?: Resolver<
+        ResolversTypes['String'],
+        ParentType,
+        ContextType,
+        RequireFields<MutationDeletePostArgs, 'postId'>
+    >;
     login?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'loginInput'>>;
     register?: Resolver<
         ResolversTypes['User'],
@@ -211,6 +244,12 @@ export type QueryResolvers<
     ContextType = any,
     ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query'],
 > = {
+    getPost?: Resolver<
+        Maybe<ResolversTypes['Post']>,
+        ParentType,
+        ContextType,
+        RequireFields<QueryGetPostArgs, 'postId'>
+    >;
     getPosts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Post']>>>, ParentType, ContextType>;
 };
 

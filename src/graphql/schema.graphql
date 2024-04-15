@@ -41,11 +41,18 @@ input LoginInput {
     password: String!
 }
 
+input CreatePostInput {
+    body: String!
+}
+
 type Query {
     getPosts: [Post]
+    getPost(postId: ID!): Post
 }
 
 type Mutation {
     register(registerInput: RegisterInput!): User!
     login(loginInput: LoginInput!): User!
+    createPost(createPostInput: CreatePostInput!): Post!
+    deletePost(postId: ID!): String!
 }

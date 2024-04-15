@@ -1,11 +1,11 @@
 import { UserInputError } from 'apollo-server';
-import bycrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import * as bycrypt from 'bcryptjs';
+import * as jwt from 'jsonwebtoken';
 
-import config from '../../config/config.js';
-import User, { IUser } from '../../models/User.js';
-import { validateLoginInput, validateRegisterInput } from '../../utils/validators.js';
-import { IssueSeverity, MutationRegisterArgs, RegisterInput } from '../../generated/graphql.js';
+import config from '../../config';
+import User, { IUser } from '../../models/User';
+import { validateLoginInput, validateRegisterInput } from '../../utils/validators';
+import { IssueSeverity, MutationRegisterArgs, MutationResolvers, Resolvers } from '../../generated/graphql';
 import { HydratedDocument } from 'mongoose';
 
 const generateToken = (user: HydratedDocument<IUser>) => {
@@ -20,7 +20,7 @@ const generateToken = (user: HydratedDocument<IUser>) => {
     );
 };
 
-const login = async (_: any, { loginInput }: any) => {
+const login: MutationResolvers['login'] = async (_, { loginInput }) => {
     const { username, password } = loginInput;
     const { issues, hasErrors } = validateLoginInput(loginInput);
     const user = await User.findOne({ username });
@@ -49,7 +49,7 @@ const login = async (_: any, { loginInput }: any) => {
     };
 };
 
-const register = async (_: any, { registerInput }: MutationRegisterArgs) => {
+const register: MutationResolvers['register'] = async (_: any, { registerInput }: MutationRegisterArgs) => {
     const { username, password, email } = registerInput;
 
     // Validate user data
@@ -91,7 +91,7 @@ const register = async (_: any, { registerInput }: MutationRegisterArgs) => {
     };
 };
 
-const usersResolver = {
+const usersResolver: Resolvers = {
     Mutation: {
         register,
         login,
