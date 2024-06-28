@@ -11,13 +11,14 @@
         "dev": "tsx --watch src/index.ts",
         "prettier:fix": "prettier --config ./.prettierrc --write .",
         "prepare": "husky",
+        "precommit": "lint-staged",
         "codegen": "graphql-codegen --config codegen.ts"
     },
     "author": "Darius Kletter",
     "license": "ISC",
     "dependencies": {
         "apollo-server": "^3.13.0",
-        "bcryptjs": "^2.4.3",
+        "bcrypt": "^5.1.1",
         "graphql": "^16.8.1",
         "jsonwebtoken": "^9.0.2",
         "mongoose": "^8.2.0"
@@ -26,7 +27,7 @@
         "@graphql-codegen/cli": "5.0.2",
         "@graphql-codegen/typescript": "4.0.6",
         "@graphql-codegen/typescript-resolvers": "4.0.6",
-        "@types/bcryptjs": "^2.4.6",
+        "@types/bcrypt": "^5.0.2",
         "@types/jsonwebtoken": "^9.0.6",
         "@types/node": "^20.11.24",
         "@types/tunnel": "^0.0.7",

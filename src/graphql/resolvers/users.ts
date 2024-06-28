@@ -1,6 +1,6 @@
 import { UserInputError } from 'apollo-server';
-import * as bycrypt from 'bcryptjs';
-import * as jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 import config from '../../config';
 import User, { IUser } from '../../models/User';
@@ -8,7 +8,7 @@ import { validateLoginInput, validateRegisterInput } from '../../utils/validator
 import { IssueSeverity, MutationRegisterArgs, MutationResolvers, Resolvers } from '../../generated/graphql';
 import { HydratedDocument } from 'mongoose';
 
-const generateToken = (user: HydratedDocument<IUser>) => {
+const generateToken = (user: HydratedDocument<IUser>): Readonly<string> => {
     return jwt.sign(
         {
             id: user.id,
@@ -34,7 +34,7 @@ const login: MutationResolvers['login'] = async (_, { loginInput }) => {
         throw new UserInputError('User not found', { issues });
     }
 
-    const match = await bycrypt.compare(password, user.password);
+    const match = await bcrypt.compare(password, user.password);
     if (!match) {
         issues.push({ message: 'Wrong credentials', severity: IssueSeverity.Error });
         throw new UserInputError('Wrong credentials', { issues });
@@ -49,7 +49,7 @@ const login: MutationResolvers['login'] = async (_, { loginInput }) => {
     };
 };
 
-const register: MutationResolvers['register'] = async (_: any, { registerInput }: MutationRegisterArgs) => {
+const register: MutationResolvers['register'] = async (_, { registerInput }) => {
     const { username, password, email } = registerInput;
 
     // Validate user data
@@ -70,7 +70,7 @@ const register: MutationResolvers['register'] = async (_: any, { registerInput }
     }
 
     // Hash password and create an auth token
-    const hashedPassword: string = await bycrypt.hash(password, 12);
+    const hashedPassword: string = await bcrypt.hash(password, 12);
     const createdAt: string = new Date().toISOString();
 
     const newUser: HydratedDocument<IUser> = new User<IUser>({

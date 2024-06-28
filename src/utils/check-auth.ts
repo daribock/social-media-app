@@ -1,21 +1,22 @@
 import { AuthenticationError } from 'apollo-server';
+import jwt from 'jsonwebtoken';
 
-import * as jwt from 'jsonwebtoken';
 import config from '../config/index.js';
+import { User } from '../generated/graphql.js';
 
 const { SECRET_KEY } = config;
 
-const checkAuth = (context: any) => {
+const checkAuth = (context: any): User => {
     // context = { ... headers }
     const authHeader = context.req.headers.authorization;
 
     if (authHeader) {
         // Bearer ....
-        const token = authHeader.split('Bearer ')[1];
+        const token: string = authHeader.split('Bearer ')[1];
 
         if (token) {
             try {
-                const user = jwt.verify(token, SECRET_KEY);
+                const user = jwt.verify(token, SECRET_KEY) as User;
 
                 return user;
             } catch (err) {

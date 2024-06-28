@@ -4,6 +4,8 @@
         "module": "commonjs",
         "lib": ["ESNext"],
         "forceConsistentCasingInFileNames": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
         "outDir": "dist",
         "strict": true,
         "skipLibCheck": false
