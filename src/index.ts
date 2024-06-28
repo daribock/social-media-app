@@ -2,7 +2,7 @@ import { ApolloServer } from 'apollo-server';
 import mongoose from 'mongoose';
 import { readFileSync } from 'fs';
 
-import config from './config/config.js';
+import config from './config/index.js';
 import resolvers from './graphql/resolvers/index.js';
 
 // Note: this uses a path relative to the project's
@@ -14,7 +14,7 @@ const typeDefs = readFileSync('./src/graphql/schema.graphql', {
 
 const { MONGODB_URL } = config;
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({ typeDefs, resolvers, context: ({ req }) => ({ req }) });
 
 mongoose.connect(MONGODB_URL).then(() => {
     console.log('🌱 MongoDB connected');

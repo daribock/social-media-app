@@ -1,14 +1,14 @@
 import { UserInputError } from 'apollo-server';
-import bycrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import config from '../../config/config.js';
-import User, { IUser } from '../../models/User.js';
-import { validateLoginInput, validateRegisterInput } from '../../utils/validators.js';
-import { IssueSeverity, MutationRegisterArgs, RegisterInput } from '../../generated/graphql.js';
+import config from '../../config';
+import User, { IUser } from '../../models/User';
+import { validateLoginInput, validateRegisterInput } from '../../utils/validators';
+import { IssueSeverity, MutationRegisterArgs, MutationResolvers, Resolvers } from '../../generated/graphql';
 import { HydratedDocument } from 'mongoose';
 
-const generateToken = (user: HydratedDocument<IUser>) => {
+const generateToken = (user: HydratedDocument<IUser>): Readonly<string> => {
     return jwt.sign(
         {
             id: user.id,
@@ -20,7 +20,7 @@ const generateToken = (user: HydratedDocument<IUser>) => {
     );
 };
 
-const login = async (_: any, { loginInput }: any) => {
+const login: MutationResolvers['login'] = async (_, { loginInput }) => {
     const { username, password } = loginInput;
     const { issues, hasErrors } = validateLoginInput(loginInput);
     const user = await User.findOne({ username });
@@ -34,7 +34,7 @@ const login = async (_: any, { loginInput }: any) => {
         throw new UserInputError('User not found', { issues });
     }
 
-    const match = await bycrypt.compare(password, user.password);
+    const match = await bcrypt.compare(password, user.password);
     if (!match) {
         issues.push({ message: 'Wrong credentials', severity: IssueSeverity.Error });
         throw new UserInputError('Wrong credentials', { issues });
@@ -49,7 +49,7 @@ const login = async (_: any, { loginInput }: any) => {
     };
 };
 
-const register = async (_: any, { registerInput }: MutationRegisterArgs) => {
+const register: MutationResolvers['register'] = async (_, { registerInput }) => {
     const { username, password, email } = registerInput;
 
     // Validate user data
@@ -70,7 +70,7 @@ const register = async (_: any, { registerInput }: MutationRegisterArgs) => {
     }
 
     // Hash password and create an auth token
-    const hashedPassword: string = await bycrypt.hash(password, 12);
+    const hashedPassword: string = await bcrypt.hash(password, 12);
     const createdAt: string = new Date().toISOString();
 
     const newUser: HydratedDocument<IUser> = new User<IUser>({
@@ -91,7 +91,7 @@ const register = async (_: any, { registerInput }: MutationRegisterArgs) => {
     };
 };
 
-const usersResolver = {
+const usersResolver: Resolvers = {
     Mutation: {
         register,
         login,
