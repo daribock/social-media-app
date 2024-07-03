@@ -1,5 +1,11 @@
-import { AuthenticationError } from 'apollo-server';
-import { MutationCreatePostArgs, MutationDeletePostArgs, QueryGetPostArgs } from '../../generated/graphql.js';
+import { AuthenticationError, UserInputError } from 'apollo-server';
+import {
+    MutationCreatePostArgs,
+    MutationDeletePostArgs,
+    MutationLikePostArgs,
+    QueryGetPostArgs,
+    Resolvers,
+} from '../../generated/graphql.js';
 import Post from '../../models/Post.js';
 import checkAuth from '../../utils/check-auth.js';
 
@@ -63,9 +69,42 @@ const deletePost = async (_: any, { postId }: MutationDeletePostArgs, context: a
     }
 };
 
+/**
+ * Like and unlike posts
+ *
+ * Like a post if not liked yet
+ * Unlike a post if alredy liked
+ *
+ * One Mutation two functionalities
+ * @returns The changed post
+ */
+const likePost = async (_: any, { postId }: MutationLikePostArgs, context: any) => {
+    const { username } = checkAuth(context);
+
+    const post = await Post.findById(postId);
+
+    if (post) {
+        if (post.likes.find((like) => like?.username === username)) {
+            // Post already liked => unlike it
+            post.likes = post.likes.filter((like) => like?.username !== username);
+        } else {
+            // Not liked, like post
+            post.likes.push({
+                username,
+                createdAt: new Date().toISOString(),
+            });
+        }
+
+        await post.save();
+        return post;
+    } else {
+        throw new UserInputError('Post not found');
+    }
+};
+
 const postsResolver = {
     Query: { getPosts, getPost },
-    Mutation: { createPost, deletePost },
+    Mutation: { createPost, deletePost, likePost },
 };
 
 export default postsResolver;

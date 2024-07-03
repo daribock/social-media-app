@@ -1,20 +1,61 @@
-import { model, Schema } from 'mongoose';
+import { Model, model, Schema } from 'mongoose';
+import { Comment, Like, Post } from '../generated/graphql';
 
-const postSchema = new Schema({
-    body: String,
-    username: String,
-    createdAt: String,
+interface IComment extends Omit<Comment, '__typename' | 'id'> {
+    id?: string;
+}
+
+interface ILike extends Omit<Like, '__typename' | 'id'> {
+    id?: string;
+}
+
+interface IPost extends Omit<Post, '__typename' | 'id' | 'comments' | 'likes'> {
+    comments: Array<IComment>;
+    likes: Array<ILike>;
+    user: any;
+}
+
+type PostModel = Model<IPost>;
+
+const postSchema = new Schema<IPost, PostModel>({
+    body: {
+        type: String,
+        required: true,
+    },
+    username: {
+        type: String,
+        required: true,
+    },
+    createdAt: {
+        type: String,
+        required: true,
+    },
     comments: [
         {
-            body: String,
-            username: String,
-            createdAt: String,
+            body: {
+                type: String,
+                required: true,
+            },
+            username: {
+                type: String,
+                required: true,
+            },
+            createdAt: {
+                type: String,
+                required: true,
+            },
         },
     ],
     likes: [
         {
-            username: String,
-            createdAt: String,
+            username: {
+                type: String,
+                required: true,
+            },
+            createdAt: {
+                type: String,
+                required: true,
+            },
         },
     ],
     user: {
@@ -23,4 +64,4 @@ const postSchema = new Schema({
     },
 });
 
-export default model('Post', postSchema);
+export default model<IPost>('Post', postSchema);
