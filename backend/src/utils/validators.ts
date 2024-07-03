@@ -1,4 +1,10 @@
-import { IssueSeverity, LoginInput, RegisterInput, ValidationIssue, ValidationResult } from '../generated/graphql.js';
+import {
+    IssueSeverity,
+    LoginInput,
+    RegisterInput,
+    ValidationIssue,
+    ValidationResult,
+} from '../generated/generated-types';
 
 export const validateRegisterInput = ({
     username,

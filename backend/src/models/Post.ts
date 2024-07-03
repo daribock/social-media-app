@@ -1,5 +1,5 @@
 import { Model, model, Schema } from 'mongoose';
-import { Comment, Like, Post } from '../generated/graphql';
+import { Comment, Like, Post } from '../generated/generated-types';
 
 interface IComment extends Omit<Comment, '__typename' | 'id'> {
     id?: string;

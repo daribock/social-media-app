@@ -2,8 +2,8 @@ import { ApolloServer } from 'apollo-server';
 import mongoose from 'mongoose';
 import { readFileSync } from 'fs';
 
-import config from './config/index.js';
-import resolvers from './graphql/resolvers/index.js';
+import config from './config/index';
+import resolvers from './graphql/resolvers/index';
 
 // Note: this uses a path relative to the project's
 // root directory, which is the current working directory

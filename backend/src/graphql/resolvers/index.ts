@@ -1,7 +1,7 @@
-import postsResolvers from './posts.js';
-import commentsResolvers from './comments.js';
-import usersResolvers from './users.js';
-import { Post } from '../../generated/graphql.js';
+import postsResolvers from './posts';
+import commentsResolvers from './comments';
+import usersResolvers from './users';
+import { Post } from '../../generated/generated-types';
 
 const resolvers = {
     Post: {

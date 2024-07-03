@@ -1,5 +1,5 @@
 import { AuthenticationError, UserInputError } from 'apollo-server';
-import { MutationCreateCommentArgs, MutationDeleteCommentArgs, Resolvers } from '../../generated/graphql';
+import { MutationCreateCommentArgs, MutationDeleteCommentArgs, Resolvers } from '../../generated/generated-types';
 import Post from '../../models/Post';
 import checkAuth from '../../utils/check-auth';
 

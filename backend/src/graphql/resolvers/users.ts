@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 import config from '../../config';
 import User, { IUser } from '../../models/User';
 import { validateLoginInput, validateRegisterInput } from '../../utils/validators';
-import { IssueSeverity, MutationRegisterArgs, MutationResolvers, Resolvers } from '../../generated/graphql';
+import { IssueSeverity, MutationRegisterArgs, MutationResolvers, Resolvers } from '../../generated/generated-types';
 import { HydratedDocument } from 'mongoose';
 
 const generateToken = (user: HydratedDocument<IUser>): Readonly<string> => {

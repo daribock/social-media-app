@@ -5,9 +5,9 @@ import {
     MutationLikePostArgs,
     QueryGetPostArgs,
     Resolvers,
-} from '../../generated/graphql.js';
-import Post from '../../models/Post.js';
-import checkAuth from '../../utils/check-auth.js';
+} from '../../generated/generated-types';
+import Post from '../../models/Post';
+import checkAuth from '../../utils/check-auth';
 
 const getPosts = async () => {
     try {
@@ -35,6 +35,10 @@ const getPost = async (_: any, { postId }: QueryGetPostArgs) => {
 const createPost = async (_: any, { createPostInput }: MutationCreatePostArgs, context: any) => {
     const { body } = createPostInput;
     const user = checkAuth(context);
+
+    if (body.trim() === '') {
+        throw new UserInputError('Post body must not be empty');
+    }
 
     const newPost = new Post({
         body,

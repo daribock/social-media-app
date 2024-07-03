@@ -1,8 +1,8 @@
 import { AuthenticationError } from 'apollo-server';
 import jwt from 'jsonwebtoken';
 
-import config from '../config/index.js';
-import { User } from '../generated/graphql.js';
+import config from '../config/index';
+import { User } from '../generated/generated-types';
 
 const { SECRET_KEY } = config;
 
