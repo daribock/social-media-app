@@ -5,8 +5,7 @@
         "generate": "graphql-codegen --config codegen.ts",
         "compile": "pnpm run generate && tsc src/index.ts",
         "start": "pnpm run generate && tsx src/index.ts",
-        "dev": "pnpm run generate && tsx --watch src/index.ts",
-        "codegen": "graphql-codegen --config codegen.ts"
+        "dev": "pnpm run generate && tsx --watch src/index.ts"
     },
     "author": "Darius Kletter",
     "license": "ISC",

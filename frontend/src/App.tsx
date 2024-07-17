@@ -5,24 +5,31 @@ import Home from './pages/home';
 import Login from './pages/login';
 import Layout from './components/layout/layout';
 import ErrorPage from './pages/error-page';
+import Start from './pages/start';
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <Layout />,
         errorElement: <ErrorPage />,
         children: [
+            { index: true, element: <Start /> },
             {
-                index: true,
-                element: <Home />,
-            },
-            {
-                path: 'login',
-                element: <Login />,
-            },
-            {
-                path: 'register',
-                element: <Register />,
+                path: '/home',
+                element: <Layout />,
+                children: [
+                    {
+                        index: true,
+                        element: <Home />,
+                    },
+                    {
+                        path: 'login',
+                        element: <Login />,
+                    },
+                    {
+                        path: 'register',
+                        element: <Register />,
+                    },
+                ],
             },
         ],
     },

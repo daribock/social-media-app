@@ -9,10 +9,10 @@ const Navbar = () => {
                 </Link>
             </div>
             <div className="navbar-end space-x-2">
-                <Link to="/login" className="btn btn-primary">
+                <Link to="/home/login" className="btn btn-primary">
                     Login
                 </Link>
-                <Link to="/register" className="btn btn-">
+                <Link to="/home/register" className="btn btn-">
                     Register
                 </Link>
             </div>

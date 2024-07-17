@@ -101,7 +101,7 @@ export type Post = {
 export type Query = {
     __typename?: 'Query';
     getPost?: Maybe<Post>;
-    getPosts?: Maybe<Array<Maybe<Post>>>;
+    getPosts: Array<Post>;
 };
 
 export type QueryGetPostArgs = {
@@ -330,7 +330,7 @@ export type QueryResolvers<
         ContextType,
         RequireFields<QueryGetPostArgs, 'postId'>
     >;
-    getPosts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Post']>>>, ParentType, ContextType>;
+    getPosts?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType>;
 };
 
 export type UserResolvers<
