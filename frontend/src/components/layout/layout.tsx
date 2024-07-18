@@ -1,3 +1,4 @@
+import { Typography } from '@material-tailwind/react';
 import Navbar from './navbar/navbar';
 import { Outlet } from 'react-router-dom';
 
@@ -6,11 +7,14 @@ const Layout = () => {
         <>
             <Navbar />
             <main>
-                {/* An <Outlet> renders whatever child route is currently active,
-          so you can think about this <Outlet> as a placeholder for
-          the child routes we defined above. */}
                 <Outlet />
             </main>
+            <footer className="mt-auto">
+                <hr className="my-8 border-blue-gray-50" />
+                <Typography color="blue-gray" className="text-center font-normal">
+                    &copy; 2023 JISK
+                </Typography>
+            </footer>
         </>
     );
 };

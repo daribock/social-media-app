@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { ThemeProvider } from '@material-tailwind/react';
 import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';
 import App from './App';
 
@@ -16,7 +17,9 @@ const client = new ApolloClient({
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
         <ApolloProvider client={client}>
-            <App />
+            <ThemeProvider>
+                <App />
+            </ThemeProvider>
         </ApolloProvider>
     </React.StrictMode>
 );
