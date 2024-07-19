@@ -22,22 +22,34 @@ const generateToken = (user: HydratedDocument<IUser>): Readonly<string> => {
 
 const login: MutationResolvers['login'] = async (_, { loginInput }) => {
     const { username, password } = loginInput;
-    const { issues, hasErrors } = validateLoginInput(loginInput);
+    const validationResult = validateLoginInput(loginInput);
     const user = await User.findOne({ username });
 
-    if (hasErrors) {
-        throw new UserInputError('Errors', { issues });
+    if (validationResult.hasErrors) {
+        throw new UserInputError('Errors', { validationResult: validationResult });
     }
 
     if (!user) {
-        issues.push({ message: 'User not found', severity: IssueSeverity.Error });
-        throw new UserInputError('User not found', { issues });
+        validationResult.hasErrors = true;
+        validationResult.issues.push({
+            location: 'username',
+            message: 'User not found',
+            severity: IssueSeverity.Error,
+        });
+
+        throw new UserInputError('Errors', { validationResult: validationResult });
     }
 
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
-        issues.push({ message: 'Wrong credentials', severity: IssueSeverity.Error });
-        throw new UserInputError('Wrong credentials', { issues });
+        validationResult.hasErrors = true;
+        validationResult.issues.push({
+            location: 'password',
+            message: 'Wrong credentials',
+            severity: IssueSeverity.Error,
+        });
+
+        throw new UserInputError('Errors', { validationResult: validationResult });
     }
 
     const token = generateToken(user);
@@ -53,20 +65,23 @@ const register: MutationResolvers['register'] = async (_, { registerInput }) => 
     const { username, password, email } = registerInput;
 
     // Validate user data
-    const { issues, hasErrors } = validateRegisterInput(registerInput);
+    const validationResult = validateRegisterInput(registerInput);
 
-    if (hasErrors) {
-        throw new UserInputError('Errors', { issues });
-    }
     // Make sure user doesn't already exist
     const user = await User.findOne({ username });
 
     if (user) {
-        throw new UserInputError('Username is taken', {
-            errors: {
-                username: 'This username is taken',
-            },
+        validationResult.issues.push({
+            location: 'username',
+            message: 'This username is taken',
+            severity: IssueSeverity.Error,
         });
+    }
+
+    validationResult.hasErrors = !!validationResult.issues.length;
+
+    if (validationResult.hasErrors) {
+        throw new UserInputError('Errors', { validationResult: validationResult });
     }
 
     // Hash password and create an auth token

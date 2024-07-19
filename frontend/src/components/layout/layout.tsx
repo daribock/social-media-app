@@ -12,7 +12,7 @@ const Layout = () => {
             <footer className="mt-auto">
                 <hr className="my-8 border-blue-gray-50" />
                 <Typography color="blue-gray" className="text-center font-normal">
-                    &copy; 2023 JISK
+                    &copy; 2023 Jesus is King
                 </Typography>
             </footer>
         </>

@@ -42,7 +42,7 @@ export const validateRegisterInput = ({
     if (password === '') {
         issues.push({ location: 'password', message: 'Password must not be empty', severity: IssueSeverity.Error });
     } else if (password !== confirmPassword) {
-        issues.push({ location: 'password', message: 'Passwords must match', severity: IssueSeverity.Error });
+        issues.push({ location: 'confirmPassword', message: 'Passwords must match', severity: IssueSeverity.Error });
     }
 
     return {
