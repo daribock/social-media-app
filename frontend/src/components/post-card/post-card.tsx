@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { Card, CardBody, CardFooter, Typography, IconButton } from '@material-tailwind/react';
+import { Card, CardBody, CardFooter, Typography, IconButton, Avatar } from '@material-tailwind/react';
 import { Post } from '../../__generated__/graphql';
 
 interface PostCardProps {
@@ -23,25 +23,26 @@ const PostCard = ({ post }: PostCardProps) => {
         <article key={id}>
             <Card>
                 <CardBody className="space-y-6">
-                    <div className="flex items-center gap-x-4">
-                        <img
+                    <div className="flex items-center gap-4">
+                        <Avatar
+                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                             alt="avatar"
-                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80 "
-                            className="h-12 w-12 flex-none rounded-full bg-white/10"
                         />
                         <div>
-                            <Typography variant="h6" color="blue-gray">
-                                {username}
-                            </Typography>
-                            <time dateTime={date}>
+                            <Typography variant="h6">{username}</Typography>
+                            <div className="flex items-center gap-2">
+                                <time dateTime={date}>
+                                    <Typography variant="small">{date}</Typography>
+                                </time>
+                                {renderDots()}
                                 <Typography variant="small">{timeFromNow} ago</Typography>
-                            </time>
+                            </div>
                         </div>
                     </div>
                     <Typography>{body}</Typography>
                 </CardBody>
                 <CardFooter className="pt-0">
-                    <div className="flex items-center gap-x-2 py-2 border-t">
+                    <div className="flex items-center gap-2 py-2 border-t">
                         <Typography className="flex justify-center">
                             <Typography className="font-bold mr-1">{likeCount}</Typography>
                             Likes
@@ -51,10 +52,6 @@ const PostCard = ({ post }: PostCardProps) => {
                             <Typography className="font-bold mr-1">{commentCount}</Typography>
                             Comments
                         </Typography>
-                        {renderDots()}
-                        <time dateTime={date}>
-                            <Typography>{date}</Typography>
-                        </time>
                     </div>
                     <div className="flex items-center justify-between pt-2 border-t">
                         <IconButton variant="text" className=" flex items-center  p-2 gap-x-2">

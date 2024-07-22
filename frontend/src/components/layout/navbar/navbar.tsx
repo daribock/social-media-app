@@ -1,8 +1,10 @@
 import React from 'react';
 import { Navbar as MaterialNavbar, MobileNav, Typography, Button, IconButton } from '@material-tailwind/react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../../context/auth';
 
 const Navbar = () => {
+    const { user, logout } = useAuth();
     const [openNav, setOpenNav] = React.useState(false);
 
     React.useEffect(() => {

@@ -1,9 +1,10 @@
 import { gql, TypedDocumentNode, useMutation } from '@apollo/client';
 import { Card, CardHeader, CardBody, Typography, Input, Button, Alert } from '@material-tailwind/react';
 import { useState } from 'react';
-import { LoginInput, Mutation, ValidationResult } from '../__generated__/graphql';
+import { IssueSeverity, LoginInput, Mutation, ValidationResult } from '../__generated__/graphql';
 import { useForm } from '../utils/hook';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/auth';
 
 type TLoginForm = {
     username: string;
@@ -28,6 +29,8 @@ const LOGIN_USER: TypedDocumentNode<MutationLoginResult, LoginInput> = gql`
 
 const Login = () => {
     const navigate = useNavigate();
+    const { login } = useAuth();
+
     const [validationResult, setvalidationResult] = useState<ValidationResult>({ hasErrors: false, issues: [] });
 
     const userNameIssues = validationResult.issues.filter((issue) => issue.location?.includes('username'));
@@ -42,10 +45,16 @@ const Login = () => {
 
     const [loginUser, { loading }] = useMutation(LOGIN_USER, {
         update(_, { data }) {
-            console.log('data', data?.login);
-            setvalidationResult({ hasErrors: false, issues: [] });
-            // context.login(userData);
-            navigate('/');
+            if (data) {
+                login(data.login);
+                setvalidationResult({ hasErrors: false, issues: [] });
+                navigate('/');
+            } else {
+                setvalidationResult({
+                    hasErrors: true,
+                    issues: [{ message: 'No data', severity: IssueSeverity.Error }],
+                });
+            }
         },
         onError(err) {
             console.log('graphqlerror', err.graphQLErrors[0].extensions);

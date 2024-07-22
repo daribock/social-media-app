@@ -15,6 +15,10 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 const documents = {
     '\n    query GetPosts {\n        getPosts {\n            id\n            body\n            createdAt\n            username\n            likeCount\n            commentCount\n            likes {\n                username\n            }\n            comments {\n                createdAt\n                username\n            }\n        }\n    }\n':
         types.GetPostsDocument,
+    '\n    mutation login($username: String!, $password: String!) {\n        login(loginInput: { username: $username, password: $password }) {\n            id\n            email\n            username\n            createdAt\n            token\n        }\n    }\n':
+        types.LoginDocument,
+    '\n    mutation register($username: String!, $email: String!, $password: String!, $confirmPassword: String!) {\n        register(\n            registerInput: {\n                username: $username\n                email: $email\n                password: $password\n                confirmPassword: $confirmPassword\n            }\n        ) {\n            id\n            email\n            username\n            createdAt\n            token\n        }\n    }\n':
+        types.RegisterDocument,
 };
 
 /**
@@ -37,6 +41,18 @@ export function gql(source: string): unknown;
 export function gql(
     source: '\n    query GetPosts {\n        getPosts {\n            id\n            body\n            createdAt\n            username\n            likeCount\n            commentCount\n            likes {\n                username\n            }\n            comments {\n                createdAt\n                username\n            }\n        }\n    }\n'
 ): (typeof documents)['\n    query GetPosts {\n        getPosts {\n            id\n            body\n            createdAt\n            username\n            likeCount\n            commentCount\n            likes {\n                username\n            }\n            comments {\n                createdAt\n                username\n            }\n        }\n    }\n'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: '\n    mutation login($username: String!, $password: String!) {\n        login(loginInput: { username: $username, password: $password }) {\n            id\n            email\n            username\n            createdAt\n            token\n        }\n    }\n'
+): (typeof documents)['\n    mutation login($username: String!, $password: String!) {\n        login(loginInput: { username: $username, password: $password }) {\n            id\n            email\n            username\n            createdAt\n            token\n        }\n    }\n'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: '\n    mutation register($username: String!, $email: String!, $password: String!, $confirmPassword: String!) {\n        register(\n            registerInput: {\n                username: $username\n                email: $email\n                password: $password\n                confirmPassword: $confirmPassword\n            }\n        ) {\n            id\n            email\n            username\n            createdAt\n            token\n        }\n    }\n'
+): (typeof documents)['\n    mutation register($username: String!, $email: String!, $password: String!, $confirmPassword: String!) {\n        register(\n            registerInput: {\n                username: $username\n                email: $email\n                password: $password\n                confirmPassword: $confirmPassword\n            }\n        ) {\n            id\n            email\n            username\n            createdAt\n            token\n        }\n    }\n'];
 
 export function gql(source: string) {
     return (documents as any)[source] ?? {};
