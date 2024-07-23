@@ -1,4 +1,4 @@
-import React, { useReducer, createContext, ReactNode, useContext, useEffect } from 'react';
+import React, { useReducer, createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { User } from '../__generated__/graphql'; // Adjust this import based on your generated files
 
@@ -8,13 +8,14 @@ interface AuthState {
 
 interface AuthContextProps {
     user: User | null;
+    loading: boolean;
     login: (userData: User) => void;
     logout: () => void;
 }
 
 interface AuthAction {
     type: 'LOGIN' | 'LOGOUT';
-    payload?: User;
+    payload?: User | null;
 }
 
 const initialState: AuthState = {
@@ -46,24 +47,26 @@ interface AuthProviderProps {
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [state, dispatch] = useReducer(authReducer, initialState);
+    const [loading, setLoading] = useState(true);
 
-    // useEffect(() => {
-    //     const token = localStorage.getItem('jwtToken');
-    //     if (token) {
-    //         const decodedToken: User = jwtDecode(token);
-    //         if (decodedToken.exp * 1000 < Date.now()) {
-    //             localStorage.removeItem('jwtToken');
-    //         } else {
-    //             dispatch({
-    //                 type: 'LOGIN',
-    //                 payload: decodedToken,
-    //             });
-    //         }
-    //     }
-    // }, []);
+    useEffect(() => {
+        const token = localStorage.getItem('jwtToken');
+        if (token) {
+            const decodedToken: any = jwtDecode(token);
+            console.log(decodedToken);
+            if (decodedToken.exp && decodedToken.exp * 1000 < Date.now()) {
+                localStorage.removeItem('jwtToken');
+            } else {
+                dispatch({
+                    type: 'LOGIN',
+                    payload: decodedToken,
+                });
+            }
+        }
+    }, []);
 
     const login = (userData: User) => {
-        // localStorage.setItem('jwtToken', userData.token);
+        localStorage.setItem('jwtToken', userData.token);
         dispatch({
             type: 'LOGIN',
             payload: userData,
@@ -71,11 +74,15 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     const logout = () => {
-        // localStorage.removeItem('jwtToken');
+        localStorage.removeItem('jwtToken');
         dispatch({ type: 'LOGOUT' });
     };
 
-    return <AuthContext.Provider value={{ user: state.user, login, logout }}>{children}</AuthContext.Provider>;
+    setTimeout(() => {
+        setLoading(false);
+    }, 200);
+
+    return <AuthContext.Provider value={{ user: state.user, loading, login, logout }}>{children}</AuthContext.Provider>;
 };
 
 const useAuth = (): AuthContextProps => {

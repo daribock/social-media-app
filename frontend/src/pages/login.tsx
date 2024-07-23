@@ -83,8 +83,8 @@ const Login = () => {
     console.log('validationResult, open', validationResult, open);
 
     return (
-        <div className="flex min-h-full justify-center px-6 py-24 lg:py-36 lg:px-8">
-            <Card className="min-w-96">
+        <div className="flex justify-center py-24">
+            <Card className="w-full sm:max-w-96">
                 <CardHeader variant="gradient" color="gray" className="mb-4 grid h-28 place-items-center">
                     <Typography variant="h3" color="white">
                         Login
@@ -107,32 +107,46 @@ const Login = () => {
                             </Typography>
                         </div>
                     ) : (
-                        <form onSubmit={onSubmit} className="flex flex-col gap-4">
-                            <Input
-                                value={username}
-                                name="username"
-                                required
-                                onChange={onChange}
-                                label="Username"
-                                size="lg"
-                                {...(userNameIssues.length ? { error: true } : {})}
-                            />
-                            <Input
-                                value={password}
-                                id="password"
-                                name="password"
-                                type="password"
-                                required
-                                autoComplete="current-password"
-                                onChange={onChange}
-                                label="Password"
-                                size="lg"
-                                {...(passwordIssues.length ? { error: true } : {})}
-                            />
-                            <Button variant="gradient" type="submit" fullWidth>
-                                Login
-                            </Button>
-                        </form>
+                        <div className="space-y-4">
+                            <form onSubmit={onSubmit} className="flex flex-col gap-4">
+                                <Input
+                                    value={username}
+                                    name="username"
+                                    required
+                                    onChange={onChange}
+                                    label="Username"
+                                    size="lg"
+                                    {...(userNameIssues.length ? { error: true } : {})}
+                                />
+                                <Input
+                                    value={password}
+                                    id="password"
+                                    name="password"
+                                    type="password"
+                                    required
+                                    autoComplete="current-password"
+                                    onChange={onChange}
+                                    label="Password"
+                                    size="lg"
+                                    {...(passwordIssues.length ? { error: true } : {})}
+                                />
+                                <Button variant="gradient" type="submit" fullWidth>
+                                    Login
+                                </Button>
+                            </form>
+                            <Typography variant="small" className="mt-6 flex justify-center">
+                                Don&apos;t have an account?
+                                <Typography
+                                    as="a"
+                                    href="/register"
+                                    variant="small"
+                                    color="blue-gray"
+                                    className="ml-1 font-bold"
+                                >
+                                    Sign up
+                                </Typography>
+                            </Typography>
+                        </div>
                     )}
                     {validationResult.hasErrors && (
                         <Alert variant="gradient" color="red" icon={Icon()}>

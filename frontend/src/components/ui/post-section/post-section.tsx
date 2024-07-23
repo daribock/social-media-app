@@ -1,7 +1,8 @@
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
 import React from 'react';
-import { Query } from '../../__generated__/graphql';
+import { Query } from '../../../__generated__/graphql';
 import PostCard from '../post-card/post-card';
+import { Typography } from '@material-tailwind/react';
 
 interface GetPostsQuery {
     getPosts: Query['getPosts'];
@@ -49,10 +50,10 @@ const PostSection = () => {
     };
 
     return (
-        <section className="py-24 sm:py-32">
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <section className="py-4 sm:py-12">
+            <div className="mx-auto max-w-7xl">
                 <div className="mx-auto max-w-2xl lg:mx-0">
-                    <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Posts</h2>
+                    <Typography variant="h2">Posts</Typography>
                 </div>
                 {renderPosts()}
             </div>

@@ -122,53 +122,67 @@ const Register = () => {
                             </Typography>
                         </div>
                     ) : (
-                        <form onSubmit={onSubmit} className="flex flex-col gap-4">
-                            <Input
-                                value={username}
-                                name="username"
-                                required
-                                onChange={onChange}
-                                label="Username"
-                                size="lg"
-                                {...(userNameIssues.length ? { error: true } : {})}
-                            />
-                            <Input
-                                value={email}
-                                name="email"
-                                required
-                                onChange={onChange}
-                                label="Email"
-                                size="lg"
-                                {...(emailIssues.length ? { error: true } : {})}
-                            />
-                            <Input
-                                value={password}
-                                id="password"
-                                name="password"
-                                type="password"
-                                required
-                                autoComplete="current-password"
-                                onChange={onChange}
-                                label="Password"
-                                size="lg"
-                                {...(passwordIssues.length ? { error: true } : {})}
-                            />
-                            <Input
-                                value={confirmPassword}
-                                id="confirmPassword"
-                                name="confirmPassword"
-                                type="password"
-                                required
-                                autoComplete="current-password"
-                                onChange={onChange}
-                                label="Confirm Password"
-                                size="lg"
-                                {...(confirmPasswordIssues.length ? { error: true } : {})}
-                            />
-                            <Button variant="gradient" type="submit" fullWidth>
-                                Register
-                            </Button>
-                        </form>
+                        <div className="space-y-4">
+                            <form onSubmit={onSubmit} className="flex flex-col gap-4">
+                                <Input
+                                    value={username}
+                                    name="username"
+                                    required
+                                    onChange={onChange}
+                                    label="Username"
+                                    size="lg"
+                                    {...(userNameIssues.length ? { error: true } : {})}
+                                />
+                                <Input
+                                    value={email}
+                                    name="email"
+                                    required
+                                    onChange={onChange}
+                                    label="Email"
+                                    size="lg"
+                                    {...(emailIssues.length ? { error: true } : {})}
+                                />
+                                <Input
+                                    value={password}
+                                    id="password"
+                                    name="password"
+                                    type="password"
+                                    required
+                                    autoComplete="current-password"
+                                    onChange={onChange}
+                                    label="Password"
+                                    size="lg"
+                                    {...(passwordIssues.length ? { error: true } : {})}
+                                />
+                                <Input
+                                    value={confirmPassword}
+                                    id="confirmPassword"
+                                    name="confirmPassword"
+                                    type="password"
+                                    required
+                                    autoComplete="current-password"
+                                    onChange={onChange}
+                                    label="Confirm Password"
+                                    size="lg"
+                                    {...(confirmPasswordIssues.length ? { error: true } : {})}
+                                />
+                                <Button variant="gradient" type="submit" fullWidth>
+                                    Register
+                                </Button>
+                            </form>
+                            <Typography variant="small" className="mt-6 flex justify-center">
+                                Already have an account?
+                                <Typography
+                                    as="a"
+                                    href="/login"
+                                    variant="small"
+                                    color="blue-gray"
+                                    className="ml-1 font-bold"
+                                >
+                                    Sign In
+                                </Typography>
+                            </Typography>
+                        </div>
                     )}
                     {validationResult.hasErrors && (
                         <Alert variant="gradient" color="red" icon={Icon()}>

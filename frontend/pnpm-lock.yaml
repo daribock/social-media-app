@@ -10,6 +10,9 @@ importers:
             '@apollo/client':
                 specifier: ^3.10.8
                 version: 3.10.8(@types/react@18.2.19)(graphql-ws@5.16.0(graphql@16.9.0))(graphql@16.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+            '@heroicons/react':
+                specifier: ^2.1.5
+                version: 2.1.5(react@18.3.1)
             '@material-tailwind/react':
                 specifier: 2.1.8
                 version: 2.1.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1223,6 +1226,14 @@ packages:
         peerDependencies:
             graphql:
                 ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
+
+    '@heroicons/react@2.1.5':
+        resolution:
+            {
+                integrity: sha512-FuzFN+BsHa+7OxbvAERtgBTNeZpUjgM/MIizfVkSCL2/edriN0Hx/DWRCR//aPYwO5QX/YlgLGXk+E3PcfZwjA==,
+            }
+        peerDependencies:
+            react: '>= 16'
 
     '@humanwhocodes/config-array@0.11.14':
         resolution:
@@ -5767,6 +5778,10 @@ snapshots:
     '@graphql-typed-document-node/core@3.2.0(graphql@16.9.0)':
         dependencies:
             graphql: 16.9.0
+
+    '@heroicons/react@2.1.5(react@18.3.1)':
+        dependencies:
+            react: 18.3.1
 
     '@humanwhocodes/config-array@0.11.14':
         dependencies:
